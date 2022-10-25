@@ -1,53 +1,23 @@
-import model, view
+import view, model
 
-
-def operation(list, i, oper):
-    if list[i] == oper:
-        list[i - 1] = model.opSelect.get(oper)(int(list[i - 1]), int(list[i + 1]))
-        deleteElement(list, i)
-        return True
-    return False
-
-def deleteElement(string, i):
-    string.pop(i)
-    string.pop(i)
-
-def calculate(list: list):
-    while len(list) > 1:
-        if '*' in list or '/' in list:
-            for i in range(len(list)):
-                if operation(list, i, '*'): break
-                if operation(list, i, '/'): break
-
-        elif '+' in list or '-' in list:
-            for i in range(len(list)):
-                if operation(list, i, '+'): break
-                if operation(list, i, '-'): break
-    return list
-
-def sliceByParentheses(expression: list):
-    open_par, close_par = None, None
-    for index, item in enumerate(expression):
-        if item == "(": open_par = index
-        elif item == ")": close_par = index
-        if open_par != None and close_par != None:
-            expression1 = expression[:open_par]
-            expression2 = calculate(expression[open_par+1:close_par])
-            expression3 = expression[close_par+1:]
-            expression = []
-            expression.extend(expression1)
-            expression.extend(expression2)
-            expression.extend(expression3)
-            break
-    return expression
-
-def solutionExpression(expression: str):
-    expression = model.stringToList(expression)
-    while len(expression) > 1:
-        # print(expression)
-        if ('(' in expression) and (')' in expression):
-            expression = sliceByParentheses(expression)
-        else:
-            expression = calculate(expression)
-    model.result = expression[0]
-    view.printResult()
+def start():
+    while True:
+        command = view.show_menu()
+        match command:
+            case '1':
+                view.show_read_result(model.read_file())
+            case '2':
+                view.show_contacts(model.get_contacts())
+            case '3':
+                view.show_write_result(model.save_file())
+            case '4':
+                view.show_add_result(model.add_contact())
+            case '5':
+                view.show_contact(model.find_by_name(view.find_contact()))
+            case '6':
+                view.show_contact(model.get_current())
+                view.show_edit_result(model.edit_contact())
+            case '7':
+                view.show_delete_result(model.delete_contact())
+            case '0':
+                break

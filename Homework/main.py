@@ -1,5 +1,3 @@
-import model, controller
+import controller
 
-model.string = input('Введите выражение: ')
-
-controller.solutionExpression(model.string)
+controller.start()
